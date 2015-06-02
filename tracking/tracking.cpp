@@ -5,15 +5,30 @@
 
 #include <iostream>
 
-using namespace FlyCapture2;
+#include <boost/filesystem.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 
 int main()
 {
-  Error error;
-  Camera camera;
-  CameraInfo camInfo;
+  // Create directory for saving images
+  boost::posix_time::ptime date_time = boost::posix_time::second_clock::local_time();
+  std::string date_time_string = boost::posix_time::to_iso_string(date_time);
+  boost::filesystem::path dir(date_time_string);
+  if(boost::filesystem::create_directory(dir)) {
+    std::cout << "Created directory: " << date_time_string << "\n";
+  }
+
+  // Setup image parameters
+  std::vector<int> compression_params;
+  compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+  compression_params.push_back(0);
 
   // Connect the camera
+  FlyCapture2::Error error;
+  FlyCapture2::Camera camera;
+  FlyCapture2::CameraInfo camInfo;
+
   error = camera.Connect( 0 );
   if ( error != PGRERROR_OK )
   {
@@ -44,29 +59,37 @@ int main()
     return false;
   }
 
-  // capture loop
+  // Capture loop
   char key = 0;
   while(key != 'q')
   {
     // Get the image
-    Image rawImage;
-    Error error = camera.RetrieveBuffer( &rawImage );
+    FlyCapture2::Image rawImage;
+    FlyCapture2::Error error = camera.RetrieveBuffer( &rawImage );
     if ( error != PGRERROR_OK )
     {
       std::cout << "capture error" << std::endl;
       continue;
     }
 
-    // convert to rgb
-    Image rgbImage;
+    // Convert to rgb
+    FlyCapture2::Image rgbImage;
     rawImage.Convert( FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage );
 
-    // convert to OpenCV Mat
+    // Convert to OpenCV Mat
     unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize()/(double)rgbImage.GetRows();
     cv::Mat image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(),rowBytes);
 
     cv::imshow("image", image);
     key = cv::waitKey(30);
+
+    // Write image to file
+    date_time = boost::posix_time::microsec_clock::local_time();
+    std::string time_string = boost::posix_time::to_iso_string(date_time);
+    std::ostringstream image_file_name;
+    image_file_name << "./" << date_time_string << "/" << time_string << ".png";
+    std::string image_file_name_string = image_file_name.str();
+    cv::imwrite(image_file_name_string,image,compression_params);
   }
 
   error = camera.StopCapture();

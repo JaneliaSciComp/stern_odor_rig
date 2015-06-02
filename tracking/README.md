@@ -1,5 +1,5 @@
-opencv_flycapture
-=================
+tracking
+========
 
 Install OpenCV and FlyCapture
 -----------------------------
@@ -10,9 +10,9 @@ Build This Example
 ------------------
 
 ```shell
-mkdir -p ~/builds/opencv_flycapture/opencv_flycapture-1.0
-cd ~/builds/opencv_flycapture/opencv_flycapture-1.0
-cmake ~/git/camera_computer_linux/examples/opencv_flycapture/
+mkdir -p ~/builds/tracking/tracking-1.0
+cd ~/builds/tracking/tracking-1.0
+cmake ~/git/stern_odor_rig/tracking
 make
 ```
 
@@ -20,6 +20,6 @@ Run This Example
 ----------------
 
 ```shell
-cd ~/builds/opencv_flycapture/opencv_flycapture-1.0
-./opencv_flycapture
+cd ~/builds/tracking/tracking-1.0
+./tracking
 ```
