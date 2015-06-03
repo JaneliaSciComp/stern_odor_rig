@@ -11,7 +11,7 @@ else()
 endif()
 
 find_package( FlyCapture2 REQUIRED )
-if(${FlyCapture2_FOUND})
+if(${FLYCAPTURE2_FOUND})
   set(tracking_ext_link_LIBS ${tracking_ext_link_LIBS} ${FlyCapture2_LIBRARIES})
   include_directories(${FlyCapture2_INCLUDE_DIRS})
   message(STATUS "FlyCapture2 found")

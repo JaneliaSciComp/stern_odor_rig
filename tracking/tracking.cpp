@@ -15,7 +15,7 @@ static void help()
     << "------------------------------------------------------------------------------" << std::endl
     << "This program writes image files from camera and tracks flies."                  << std::endl
     << "Usage:"                                                                         << std::endl
-    << "./tracking output_path_base"                                                    << std::endl
+    << "tracking output_path_base"                                                      << std::endl
     << "------------------------------------------------------------------------------" << std::endl
     << std::endl;
 }
@@ -43,7 +43,7 @@ boost::filesystem::path createDirectory(const boost::filesystem::path &path)
   return path;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
   help();
 
@@ -75,7 +75,7 @@ int main()
   FlyCapture2::CameraInfo camInfo;
 
   error = camera.Connect( 0 );
-  if ( error != PGRERROR_OK )
+  if ( error != FlyCapture2::PGRERROR_OK )
   {
     std::cout << "Failed to connect to camera" << std::endl;
     return false;
@@ -83,7 +83,7 @@ int main()
 
   // Get the camera info and print it out
   error = camera.GetCameraInfo( &camInfo );
-  if ( error != PGRERROR_OK )
+  if ( error != FlyCapture2::PGRERROR_OK )
   {
     std::cout << "Failed to get camera info from camera" << std::endl;
     return false;
@@ -93,12 +93,12 @@ int main()
             << camInfo.serialNumber << std::endl;
 
   error = camera.StartCapture();
-  if ( error == PGRERROR_ISOCH_BANDWIDTH_EXCEEDED )
+  if ( error == FlyCapture2::PGRERROR_ISOCH_BANDWIDTH_EXCEEDED )
   {
     std::cout << "Bandwidth exceeded" << std::endl;
     return false;
   }
-  else if ( error != PGRERROR_OK )
+  else if ( error != FlyCapture2::PGRERROR_OK )
   {
     std::cout << "Failed to start image capture" << std::endl;
     return false;
@@ -111,7 +111,7 @@ int main()
     // Get the image
     FlyCapture2::Image rawImage;
     FlyCapture2::Error error = camera.RetrieveBuffer( &rawImage );
-    if ( error != PGRERROR_OK )
+    if ( error != FlyCapture2::PGRERROR_OK )
     {
       std::cout << "capture error" << std::endl;
       continue;
@@ -143,7 +143,7 @@ int main()
   }
 
   error = camera.StopCapture();
-  if ( error != PGRERROR_OK )
+  if ( error != FlyCapture2::PGRERROR_OK )
   {
     // This may fail when the camera was removed, so don't show
     // an error message

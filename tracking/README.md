@@ -6,20 +6,21 @@ Install OpenCV and FlyCapture
 
 [Install Instructions](../../INSTALL_XUBUNTU.md)
 
-Build This Example
-------------------
+Build and Create Alias
+----------------------
 
 ```shell
 mkdir -p ~/builds/tracking/tracking-1.0
 cd ~/builds/tracking/tracking-1.0
 cmake ~/git/stern_odor_rig/tracking
 make
+echo "alias tracking='$(pwd)/tracking'" >> ~/.bashrc
+source ~/.bashrc
 ```
 
-Run This Example
-----------------
+Run
+---
 
 ```shell
-cd ~/builds/tracking/tracking-1.0
-./tracking
+tracking ~/odor_rig_data
 ```

@@ -2,7 +2,6 @@
 #
 # Once done this will define
 #
-#  FlyCapture2_FOUND
 #  FlyCapture2_INCLUDE_DIRS
 #  FlyCapture2_LIBRARIES
 #
@@ -54,8 +53,7 @@ set(FlyCapture2_LIBRARIES ${FlyCapture2_LIBRARY} )
 set(FlyCapture2_INCLUDE_DIRS ${FlyCapture2_INCLUDE_DIR} )
 
 include(FindPackageHandleStandardArgs)
-# handle the QUIETLY and REQUIRED arguments and set FlyCapture2_FOUND to TRUE
-# if all listed variables are TRUE
+
 find_package_handle_standard_args(
   FlyCapture2  DEFAULT_MSG
   FlyCapture2_LIBRARY
