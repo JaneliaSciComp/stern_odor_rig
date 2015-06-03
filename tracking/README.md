@@ -4,7 +4,7 @@ tracking
 Install OpenCV and FlyCapture
 -----------------------------
 
-[Install Instructions](../../INSTALL_XUBUNTU.md)
+[Install Instructions](./INSTALL_XUBUNTU.md)
 
 Build and Create Alias
 ----------------------
