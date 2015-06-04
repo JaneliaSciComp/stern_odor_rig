@@ -13,9 +13,9 @@ static void help()
 {
   std::cout
     << "------------------------------------------------------------------------------" << std::endl
-    << "This program writes image files from camera and tracks flies."                  << std::endl
+    << "This program writes image files from camera."                                   << std::endl
     << "Usage:"                                                                         << std::endl
-    << "tracking output_path_base"                                                      << std::endl
+    << "save-camera-images output_path_base"                                            << std::endl
     << "------------------------------------------------------------------------------" << std::endl
     << std::endl;
 }

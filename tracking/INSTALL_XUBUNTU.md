@@ -17,7 +17,8 @@ sudo apt-get install git openssh-server -y
 ###Install Point Grey FlyCapture2 Library
 
 Links and instructions for downloading and installing the latest
-FlyCapture 2.x library from Point Grey for Linux can be found here:
+FlyCapture 2.x Full SDK library from Point Grey for Linux can be found
+here:
 
 <http://www.ptgrey.com/support/downloads>
 

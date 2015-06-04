@@ -28,5 +28,5 @@ else()
   message(STATUS "Boost not found")
 endif()
 
-add_executable( tracking tracking.cpp )
-target_link_libraries( tracking ${tracking_ext_link_LIBS} )
+add_executable( save-camera-images save_camera_images.cpp )
+target_link_libraries( save-camera-images ${tracking_ext_link_LIBS} )

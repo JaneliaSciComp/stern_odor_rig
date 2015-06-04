@@ -14,7 +14,7 @@ mkdir -p ~/builds/tracking/tracking-1.0
 cd ~/builds/tracking/tracking-1.0
 cmake ~/git/stern_odor_rig/tracking
 make
-echo "alias tracking='$(pwd)/tracking'" >> ~/.bashrc
+echo "alias save-camera-images='$(pwd)/save-camera-images'" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -22,5 +22,5 @@ Run
 ---
 
 ```shell
-tracking ~/odor_rig_data
+save-camera-images ~/odor_rig_data
 ```
