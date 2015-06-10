@@ -42,3 +42,15 @@ coverage.xml
 docs/_build/
 
 RELEASE-VERSION
+
+# Windows default autosave extension
+*.asv
+
+# OSX / *nix default autosave extension
+*.m~
+
+# Compiled MEX binaries (all platforms)
+*.mex*
+
+# Simulink Code Generation
+slprj/
