@@ -16,6 +16,7 @@ cmake ~/git/stern_odor_rig/tracking
 make
 echo "alias save-camera-images='$(pwd)/save-camera-images'" >> ~/.bashrc
 source ~/.bashrc
+ln -s 
 ```
 
 Run
