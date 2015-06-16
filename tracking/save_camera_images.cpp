@@ -4,6 +4,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include <iostream>
+#include <fstream>
 
 #include <boost/filesystem.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
