@@ -114,7 +114,6 @@ int main(int argc, char *argv[])
   }
 
   // Capture loop
-  boost::posix_time::ptime start_time = boost::posix_time::second_clock::local_time();
   char key = 0;
   while(key != 'q')
   {
@@ -136,8 +135,8 @@ int main(int argc, char *argv[])
     cv::Mat image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(),rowBytes);
 
     // Show image
-    cv::imshow("image", image);
-    key = cv::waitKey(1);
+    // cv::imshow("image", image);
+    // key = cv::waitKey(30);
 
     // Create full image output path
     date_time = boost::posix_time::microsec_clock::local_time();
@@ -151,33 +150,6 @@ int main(int argc, char *argv[])
     // Write image to file
     cv::imwrite(output_path_full.string(),image,compression_params);
   }
-
-  boost::posix_time::ptime stop_time = boost::posix_time::second_clock::local_time();
-  boost::posix_time::time_duration run_duration = stop_time - start_time;
-  int run_duration_seconds = run_duration.total_seconds();
-  std::cout << "Run duration: " << run_duration_seconds << std::endl;
-
-  int image_count = 0;
-  boost::filesystem::directory_iterator end_iter;
-  for (boost::filesystem::directory_iterator dir_itr(output_path);
-       dir_itr != end_iter;
-       ++dir_itr )
-  {
-    try
-    {
-      if (boost::filesystem::is_regular_file(dir_itr->status()))
-      {
-        ++image_count;
-        // std::cout << dir_itr->path().filename() << "\n";
-      }
-    }
-    catch (const std::exception & ex)
-    {
-      std::cout << dir_itr->path().filename() << " " << ex.what() << std::endl;
-    }
-  }
-  std::cout << "Image count: " << image_count << std::endl;
-  std::cout << "Images per second: " << image_count/run_duration_seconds << std::endl;
 
   error = camera.StopCapture();
   if ( error != FlyCapture2::PGRERROR_OK )
