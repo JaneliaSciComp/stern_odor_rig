@@ -6,6 +6,13 @@ Install OpenCV and FlyCapture
 
 [Install Instructions](./INSTALL_XUBUNTU.md)
 
+Install Dependencies
+--------------------
+
+```shell
+sudo apt-get install libboost-date-time-dev libboost-filesystem-dev -y
+```
+
 Build and Create Alias
 ----------------------
 
