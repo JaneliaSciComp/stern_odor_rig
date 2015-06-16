@@ -84,15 +84,15 @@ int main(int argc, char *argv[])
   FlyCapture2::CameraInfo camInfo;
 
   error = camera.Connect( 0 );
-  if ( error != FlyCapture2::PGRERROR_OK )
+  if (error != FlyCapture2::PGRERROR_OK)
   {
     std::cout << "Failed to connect to camera" << std::endl;
     return false;
   }
 
   // Get the camera info and print it out
-  error = camera.GetCameraInfo( &camInfo );
-  if ( error != FlyCapture2::PGRERROR_OK )
+  error = camera.GetCameraInfo(&camInfo);
+  if (error != FlyCapture2::PGRERROR_OK)
   {
     std::cout << "Failed to get camera info from camera" << std::endl;
     return false;
@@ -102,12 +102,12 @@ int main(int argc, char *argv[])
             << camInfo.serialNumber << std::endl;
 
   error = camera.StartCapture();
-  if ( error == FlyCapture2::PGRERROR_ISOCH_BANDWIDTH_EXCEEDED )
+  if (error == FlyCapture2::PGRERROR_ISOCH_BANDWIDTH_EXCEEDED)
   {
     std::cout << "Bandwidth exceeded" << std::endl;
     return false;
   }
-  else if ( error != FlyCapture2::PGRERROR_OK )
+  else if (error != FlyCapture2::PGRERROR_OK)
   {
     std::cout << "Failed to start image capture" << std::endl;
     return false;
@@ -119,8 +119,8 @@ int main(int argc, char *argv[])
   {
     // Get the image
     FlyCapture2::Image rawImage;
-    FlyCapture2::Error error = camera.RetrieveBuffer( &rawImage );
-    if ( error != FlyCapture2::PGRERROR_OK )
+    FlyCapture2::Error error = camera.RetrieveBuffer(&rawImage);
+    if (error != FlyCapture2::PGRERROR_OK)
     {
       std::cout << "capture error" << std::endl;
       continue;
@@ -128,14 +128,18 @@ int main(int argc, char *argv[])
 
     // Convert to rgb
     FlyCapture2::Image rgbImage;
-    rawImage.Convert( FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage );
+    rawImage.Convert(FlyCapture2::PIXEL_FORMAT_BGR, &rgbImage);
 
     // Convert to OpenCV Mat
     unsigned int rowBytes = (double)rgbImage.GetReceivedDataSize()/(double)rgbImage.GetRows();
     cv::Mat image = cv::Mat(rgbImage.GetRows(), rgbImage.GetCols(), CV_8UC3, rgbImage.GetData(),rowBytes);
 
+    // Convert to grayscale
+    cv::Mat image_gray;
+    cv::cvtColor(image, image_gray, CV_BGR2GRAY);
+
     // Show image
-    // cv::imshow("image", image);
+    // cv::imshow("image", image_gray);
     // key = cv::waitKey(30);
 
     // Create full image output path
@@ -148,11 +152,11 @@ int main(int argc, char *argv[])
     boost::filesystem::path output_path_full = output_path / output_file_name_path;
 
     // Write image to file
-    cv::imwrite(output_path_full.string(),image,compression_params);
+    cv::imwrite(output_path_full.string(),image_gray,compression_params);
   }
 
   error = camera.StopCapture();
-  if ( error != FlyCapture2::PGRERROR_OK )
+  if (error != FlyCapture2::PGRERROR_OK)
   {
     // This may fail when the camera was removed, so don't show
     // an error message
