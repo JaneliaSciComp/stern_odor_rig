@@ -10,6 +10,15 @@
 #include <boost/filesystem.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
+#include <signal.h>
+
+
+// Globals
+FlyCapture2::Error error;
+FlyCapture2::Camera camera;
+FlyCapture2::CameraInfo camInfo;
+struct sigaction act;
+volatile bool killed = false;
 
 static void help()
 {
@@ -45,6 +54,13 @@ boost::filesystem::path createDirectory(const boost::filesystem::path &path)
   return path;
 }
 
+void sighandler(int signum, siginfo_t *info, void *ptr)
+{
+  std::cout << "Received signal " << signum << std::endl;
+  std::cout << "Signal originates from process " << (unsigned long)info->si_pid << std::endl;
+  killed = true;
+}
+
 int main(int argc, char *argv[])
 {
   help();
@@ -54,6 +70,14 @@ int main(int argc, char *argv[])
     std::cout << "Not enough parameters" << std::endl;
     return -1;
   }
+
+  // Setup signal handler
+  memset(&act, 0, sizeof(act));
+
+  act.sa_sigaction = sighandler;
+  act.sa_flags = SA_SIGINFO;
+
+  sigaction(SIGTERM, &act, NULL);
 
   // Create base directory
   boost::filesystem::path output_path_base(argv[1]);
@@ -80,10 +104,6 @@ int main(int argc, char *argv[])
   compression_params.push_back(0);
 
   // Connect the camera
-  FlyCapture2::Error error;
-  FlyCapture2::Camera camera;
-  FlyCapture2::CameraInfo camInfo;
-
   error = camera.Connect( 0 );
   if (error != FlyCapture2::PGRERROR_OK)
   {
@@ -115,8 +135,7 @@ int main(int argc, char *argv[])
   }
 
   // Capture loop
-  char key = 0;
-  while(key != 'q')
+  while(!killed)
   {
     // Get the image
     FlyCapture2::Image rawImage;
@@ -156,6 +175,7 @@ int main(int argc, char *argv[])
     cv::imwrite(output_path_full.string(),image_gray,compression_params);
   }
 
+  std::cout << "Stopping camera capture..."
   error = camera.StopCapture();
   if (error != FlyCapture2::PGRERROR_OK)
   {
@@ -163,6 +183,7 @@ int main(int argc, char *argv[])
     // an error message
   }
 
+  std::cout << "Disconnecting camera..."
   camera.Disconnect();
 
   return 0;

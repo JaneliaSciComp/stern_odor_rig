@@ -32,3 +32,13 @@ Run
 ```shell
 save-camera-images ~/odor_rig_data
 ```
+
+Stop
+----
+
+Open a terminal and type:
+
+```shell
+PID=`pidof save-camera-images`
+kill $PID
+```
