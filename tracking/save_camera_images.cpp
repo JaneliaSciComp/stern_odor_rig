@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
     cv::imwrite(output_path_full.string(),image_gray,compression_params);
   }
 
-  std::cout << "Stopping camera capture..."
+  std::cout << "Stopping camera capture..." << std::endl;
   error = camera.StopCapture();
   if (error != FlyCapture2::PGRERROR_OK)
   {
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
     // an error message
   }
 
-  std::cout << "Disconnecting camera..."
+  std::cout << "Disconnecting camera..." << std::endl;
   camera.Disconnect();
 
   return 0;
