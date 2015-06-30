@@ -1,20 +1,17 @@
 tracking
 ========
 
-Install OpenCV and FlyCapture
------------------------------
+##Install OpenCV and FlyCapture
 
 [Install Instructions](./INSTALL_XUBUNTU.md)
 
-Install Dependencies
---------------------
+##Install Dependencies
 
 ```shell
 sudo apt-get install libboost-date-time-dev libboost-filesystem-dev -y
 ```
 
-Build and Create Alias
-----------------------
+##Build and Create Alias
 
 ```shell
 mkdir -p ~/builds/tracking/tracking-1.0
@@ -26,15 +23,27 @@ source ~/.bashrc
 ln -s "$(pwd)/save-camera-images" ~/save-camera-images
 ```
 
-Run
----
+##Start Program
 
 ```shell
 save-camera-images ~/odor_rig_data
 ```
 
-Stop
-----
+##Start Saving Images
+
+```shell
+PID=`pidof save-camera-images`
+kill -s USR1 $PID
+```
+
+##Stop Saving Images
+
+```shell
+PID=`pidof save-camera-images`
+kill -s USR2 $PID
+```
+
+##Stop Program
 
 Open a terminal and type:
 
